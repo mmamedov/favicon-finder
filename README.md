@@ -14,14 +14,14 @@ php app.php example.com
 
 ### Top Alexa domains lookup
 Unzip [Alexa's top domains](http://s3.amazonaws.com/alexa-static/top-1m.csv.zip) file into `input/` directory.
-File is large, but each worker will only load it's processing porting of the file.   
+File is too large to completely load in memory, so each worker will only load it's processing portion of the file.   
 
 Script below spawns 200 PHP processes in the background each with 1000 domains to lookup (400 processes with 500 domains when `$doubleWorkers` set to `true` ),
 in order to get favicons for the Alexa top 200k ranked URLs file. 
 <br>
-This is a low-intensity CPU task, with each process using ~10MB of RAM and receiving in total ~2MB of network data.   
+This is a low-intensity CPU task, with each process using ~10MB of RAM.   
 
-Each process has it's own log file and CSV output file, stored in `output/worker_csv` and `output/worker_log` directories. 
+Each process has it's own log and output CSV files, stored in `output/worker_csv` and `output/worker_log` directories. 
 Additionally each worker will save it's runtime stats in `output/workers.log`.
  
 Please note that this might take several hours depending on your machine and network speed. 
@@ -33,7 +33,7 @@ php init_200k_worker.php 1
 
 <br>
 Check number of PHP processes running. 
-This should return a bit more than 400, as it will also capture grep command, and anything else matching to php in the output.
+This should return a bit more than 200 (or 400 depending on configuration), as it will also capture grep command, and anything else matching to php in the output.
 
 ```
 ps aux | grep -c php
@@ -76,10 +76,10 @@ How it works
 FaviconFinder uses `Inspectors` to lookup favicons. 
 Currently there are 2 Inspectors implemented, they are called one after another, if previous Inspector fails to find result.
 
-### `HeadersInspector` 
-Looks at HTTP response headers, and visits redirects in the `Location` heaeder as necessary. 
+#### `HeadersInspector` 
+Looks at HTTP response headers, and visits redirects in the `Location` header as necessary. 
 Starts with `https://<domain>/favicon.ico` location, as this is the most likely location.
 
-## `HtmlInspector`
+#### `HtmlInspector`
 Downloads HTML of the domain, and looks for variations of `<link rel>` tag for favicon location.
 It uses CURL library and follows redirects to reach to actual page. 
