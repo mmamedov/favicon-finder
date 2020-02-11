@@ -55,6 +55,7 @@ cat output/worker_csv/*.csv > all.csv
 
 <br>
 To include in your application using composer:
+
 ```
 composer require mmamedov/favicon-finder
 ```
@@ -81,5 +82,5 @@ Looks at HTTP response headers, and visits redirects in the `Location` header as
 Starts with `https://<domain>/favicon.ico` location, as this is the most likely location.
 
 #### `HtmlInspector`
-Downloads HTML of the domain, and looks for variations of `<link rel>` tag for favicon location.
-It uses CURL library and follows redirects to reach to actual page. 
+Gets HTML code from `https://<domain>`, and looks for variations of `<link rel>` tag for favicon location.
+It uses CURL library and follows redirects to reach to actual page URL. 
