@@ -1,11 +1,11 @@
 {
-  "name": "mmamedov/page-cache",
+  "name": "mmamedov/favicon-finder",
   "type": "library",
-  "description": "Alexa Favicon Extractor",
+  "description": "Favicon Finder",
   "authors": [
     {
       "name": "Muhammed Mamedov",
-      "email": "mmamedov@wayfair.com",
+      "email": "mm@turkmenweb.net",
       "role": "Developer"
     }
   ],
